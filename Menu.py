@@ -8,7 +8,7 @@ def Menu_Secundario():
     Menu=Tk()
     Menu.geometry("1200x700")
     Menu.title("Herramienta KZAJPJ - Menu principal")
-    Menu.resizable(0,-30)
+    #Menu.resizable(0,-30)
 
     Menu.configure(background="white")
     Label(Menu, text="Acceso al sistema", bg="white", fg="black", width="300", height="3", font=("Arial", 15)).pack()
@@ -30,6 +30,7 @@ def Configuracion():
     settings=Toplevel(Menu)
     settings.geometry("350x380")
     settings.title("Configuración")
+    settings.configure(background="white")
     #foto=ImageTk.PhotoImage(Image.open("logotecnica.png"))
 
     Label(settings, text="Hola").pack()
