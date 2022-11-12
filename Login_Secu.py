@@ -1,30 +1,42 @@
 import tkinter
 import pymysql
+#import cv2
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
+
 
 def menu_Inicio():
     global Inicio
     Inicio=Tk()
     Inicio.geometry("350x400")
     Inicio.title("Iniciar sesión")
-    Inicio.config(background="white")
+    #Inicio.config(background="white")
     Inicio.resizable(0,0)
-
-    foto = ImageTk.PhotoImage(Image.open("logotecnica.png"))
-    Label( Inicio, image = foto, fg="white", text="", font=("Arial", 15)).pack()
-    
+    #foto1 = cv2.imread('logotecnica.png',0)
+    #cv2.imshow('logotecnica.ong',foto1)
+   
     #label1.place(x = 0, y = 0)  label1 = 
+    foto = Image.open("logotecnica.png")
+    resize_image = foto.resize((350,396))
+    img = ImageTk.PhotoImage(resize_image)
+    label1=Label( Inicio, image = img,)
+    #label1.image = img 
+    label1.place(x=0,y=4)
 
-    Label(text="Bienvenido a la herramienta", bg="white", fg="black", width="300", height="3", font=("Arial", 13)).pack()
-    Label(text="", bg="white").pack()
+    Label(text="Bienvenido a la herramienta KZAJJPJ",bg="#8B1C0E", fg="white", width="300", height="1", font=("Arial", 15)).pack()
+    #Label().pack()
 
-    Button(bg="#8B1C0E", fg="white", text="Iniciar sesión", height="2", width="15", command=Inicio_sesion).pack()
-    Label(text="o", bg="white").pack()
-    Button(bg="#8B1C0E", fg="white", text="Cerrar", height="2", width="15", command=Cerrar_ventana).pack()
+    #Label(bg="white").pack()
+
+    btn1=Button(bg="#8B1C0E", fg="white", text="Iniciar sesión", height="2", width="15", command=Inicio_sesion)
+    btn1.place(x=115, y= 200)
+    label2=Label(text="o", bg="#8B1C0E", fg="white")
+    label2.place(x=165, y= 250)
+    btn2=Button(bg="#8B1C0E", fg="white", text="Cerrar", height="2", width="15", command=Cerrar_ventana)
+    btn2.place(x=115, y=280)
     #place(x=160, y=175)
-
+    #Inicio.wm_attributes("-transparentcolor", 'grey')
     Inicio.mainloop()
 
 def Inicio_sesion():
