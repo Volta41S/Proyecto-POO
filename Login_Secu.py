@@ -9,19 +9,19 @@ from PIL import ImageTk, Image
 def menu_Inicio():
     global Inicio
     Inicio=Tk()
-    Inicio.geometry("350x400")
+    Inicio.geometry("350x350")
     Inicio.title("Iniciar sesión")
     #Inicio.config(background="white")
+    Inicio.iconbitmap("logotecnica.ico")
     Inicio.resizable(0,0)
     #foto1 = cv2.imread('logotecnica.png',0)
     #cv2.imshow('logotecnica.ong',foto1)
    
     #label1.place(x = 0, y = 0)  label1 = 
-    foto = Image.open("logotecnica.png")
-    resize_image = foto.resize((350,396))
+    foto = Image.open("logotecnica1.png")
+    resize_image = foto.resize((350,346))
     img = ImageTk.PhotoImage(resize_image)
-    label1=Label( Inicio, image = img,)
-    #label1.image = img 
+    label1=Label( Inicio, image = img)
     label1.place(x=0,y=4)
 
     Label(text="Bienvenido a la herramienta KZAJJPJ",bg="#8B1C0E", fg="white", width="300", height="1", font=("Arial", 15)).pack()
@@ -30,11 +30,11 @@ def menu_Inicio():
     #Label(bg="white").pack()
 
     btn1=Button(bg="#8B1C0E", fg="white", text="Iniciar sesión", height="2", width="15", command=Inicio_sesion)
-    btn1.place(x=115, y= 200)
-    label2=Label(text="o", bg="#8B1C0E", fg="white")
-    label2.place(x=165, y= 250)
+    btn1.place(x=115, y= 150)
+    label2=Label(text="o", bg="white", fg="black", font=("Arial"))
+    label2.place(x=165, y= 200)
     btn2=Button(bg="#8B1C0E", fg="white", text="Cerrar", height="2", width="15", command=Cerrar_ventana)
-    btn2.place(x=115, y=280)
+    btn2.place(x=115, y=230)
     #place(x=160, y=175)
     #Inicio.wm_attributes("-transparentcolor", 'grey')
     Inicio.mainloop()
@@ -44,12 +44,13 @@ def Inicio_sesion():
     
     global InicioS
     InicioS = Toplevel(Inicio)
-    InicioS.geometry("350x380")
+    InicioS.geometry("350x350")
     InicioS.title("Iniciar sesion")
     InicioS.config(background="white")
+    InicioS.iconbitmap("logotecnica.ico")
     InicioS.resizable(0,0)
 
-    Label(InicioS, text="Por favor, ingrese su Usuario y Contraseña a continuación", bg="white").pack()
+    Label(InicioS, text="Por favor, ingrese su Usuario y Contraseña a continuación:", bg="white", font=("Arial", 9)).pack()
     Label(InicioS, text="", bg="white").pack()
 
     global nombreusuario_verify

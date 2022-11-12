@@ -11,13 +11,7 @@ def Menu_Secundario():
     Menu.title("Herramienta KZAJPJ - Menu principal")
     foto = tk.PhotoImage(file="images1.png")
     #Menu.resizable(0,-30)
-    """style = ttk.Style()
-    style.configure("BW.TLabel", foreground="white", background="#8B1C0E") 
-    style = ttk.Style()
-    style.map("C.TButton",
-    foreground=[('!disabled', 'white'), ('active', 'black')],
-    background=[('!disabled', '#8B1C0E'), ('active', '#8B1C0E')], padding=3)"""
-
+    
     Menu.configure(background="white")
     Label(Menu, text="Acceso al sistema", bg="white", fg="black", width="300", height="3", font=("Arial", 15)).pack()
     #Label(text="").pack()
@@ -26,7 +20,7 @@ def Menu_Secundario():
     btn1=Button(Menu,bg="#8B1C0E", fg="white", text="Seleccionar", height="2", width="15")
     btn1.place(x=1000, y= 600)
     #Label(text="").pack()
-    bt2=Button(Menu, bg="#8B1C0E", text="Agregar", fg="white", height="2", width="15")
+    bt2=Button(Menu, bg="#8B1C0E", text="Agregar", fg="white", height="2", width="15", command=Agregar_grupo)
     bt2.place(x=1000, y=30)
    # btn3=Button(Menu, text="Configuración", width="10", command=Configuracion)
    #btn3.place(x=15, y=600)
@@ -45,8 +39,18 @@ def Configuracion():
     settings.configure(background="white")
     settings.resizable(0,0) 
     
-    Label(settings, text="Hola").pack()
-    
+    Label(settings, text="Configuración", bg="white").pack()
+
+    btn1=Button(settings, bg="#8B1C0E", fg="white", text="Cambiar contraseña", width="15")
+    btn1.place(x=115, y=150)
+
+    btn2=Button(settings, bg="#8B1C0E", fg="white", text="Reportar errores", width="15")
+    btn2.place(x=115, y=200)
+
+    Label(settings, text="Versión 1.0.0", bg="white", fg="gray").place(x=125, y=360)
+
+def Agregar_grupo():
+    from AgregarGrupo import A_Grupo 
    
 
 
