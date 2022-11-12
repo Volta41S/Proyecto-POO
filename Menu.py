@@ -1,4 +1,4 @@
-import tkinter
+import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
@@ -6,9 +6,10 @@ import os
 
 def Menu_Secundario():
     global Menu
-    Menu=Tk()
+    Menu=tk.Tk()
     Menu.geometry("1200x700")
     Menu.title("Herramienta KZAJPJ - Menu principal")
+    foto = tk.PhotoImage(file="images1.png")
     #Menu.resizable(0,-30)
     """style = ttk.Style()
     style.configure("BW.TLabel", foreground="white", background="#8B1C0E") 
@@ -27,8 +28,11 @@ def Menu_Secundario():
     #Label(text="").pack()
     bt2=Button(Menu, bg="#8B1C0E", text="Agregar", fg="white", height="2", width="15")
     bt2.place(x=1000, y=30)
-    btn3=Button(Menu, text="Configuración", width="10", command=Configuracion)
-    btn3.place(x=15, y=600)
+   # btn3=Button(Menu, text="Configuración", width="10", command=Configuracion)
+   #btn3.place(x=15, y=600)
+
+    btn_C=ttk.Button(Menu, image= foto, command=Configuracion)
+    btn_C.place(x=15, y=600)
 
     Menu.mainloop()
 
@@ -39,12 +43,11 @@ def Configuracion():
     settings.geometry("350x380")
     settings.title("Configuración")
     settings.configure(background="white")
-    #foto=ImageTk.PhotoImage(Image.open("logotecnica.png"))
-
+    settings.resizable(0,0) 
+    
     Label(settings, text="Hola").pack()
-    #background=Label(Config, image=ImageTk.PhotoImage(Image.open("logotecnica.png")), text="")
-    #background.place(x=0, y=0)
-    #Config.configure(background=Label1)
+    
+   
 
 
 Menu_Secundario()

@@ -10,7 +10,7 @@ def menu_Inicio():
     Inicio.geometry("350x400")
     Inicio.title("Iniciar sesión")
     Inicio.config(background="white")
-    #Inicio.resizable(0,0)
+    Inicio.resizable(0,0)
 
     foto = ImageTk.PhotoImage(Image.open("logotecnica.png"))
     Label( Inicio, image = foto, fg="white", text="", font=("Arial", 15)).pack()
@@ -35,6 +35,7 @@ def Inicio_sesion():
     InicioS.geometry("350x380")
     InicioS.title("Iniciar sesion")
     InicioS.config(background="white")
+    InicioS.resizable(0,0)
 
     Label(InicioS, text="Por favor, ingrese su Usuario y Contraseña a continuación", bg="white").pack()
     Label(InicioS, text="", bg="white").pack()
