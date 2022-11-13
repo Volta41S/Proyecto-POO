@@ -262,6 +262,39 @@ def Agregar_grupo():
     espacioizq_label.grid(column=0,row=0,rowspan=10,padx=2)
         
 def Eliminar_grupo():
-    global Eliminar
+    global EliGrupo
+    EliGrupo=Toplevel(Menu)
+    EliGrupo.title("Eliminar grupo")
+    EliGrupo.config(width=550,height=350,padx=10,pady=20)
+
+    Tit1=Label(EliGrupo,text="Agregar Grupo",font=("Arial",20))
+    Tit1.grid(column=0,row=0,columnspan=5,pady=(0,10), padx=10)
+    CodGru_label=Label(EliGrupo,text="Codigo de grupo:",font=("Arial",10))
+    CodGru_label.grid(column=1,row=1,pady=(0,10))
+    NomGru_label=Label(EliGrupo,text="Nombre de grupo:",font=("Arial",10))
+    NomGru_label.grid(column=1,row=2,pady=(0,10), padx=10)
+
+    CodGru=StringVar()
+    CodGru_Entry = Entry(EliGrupo, textvariable=CodGru, state="normal", width=15)
+    CodGru_Entry.grid(column=2, row=1, sticky=W)
+
+    NomGru=StringVar()
+    NomGru_entry = Entry(EliGrupo, textvariable=CodGru, state="normal", width=30)
+    NomGru_entry.grid(column=2, row=2, columnspan=5,sticky=W)
+
+    Bus_boton=ttk.Button(EliGrupo,text="Buscar")
+    Bus_boton.grid(column=3,row=1,sticky=E,padx=10)
+
+    Can_boton=ttk.Button(EliGrupo,text="Cancelar",command=AgreGrupo.destroy)
+    Can_boton.grid(column=1,row=3,padx=10)
+
+    Ace_boton=ttk.Button(EliGrupo,text="Aceptar")
+    Ace_boton.grid(column=2,row=3,padx=10,columnspan=2)
+
+    espacioder_label = Label(EliGrupo,width=5)
+    espacioder_label.grid(column=5,row=0,rowspan=10,padx=2,columnspan=2)
+
+    espacioizq_label = Label(EliGrupo,width=5)
+    espacioizq_label.grid(column=0,row=0,rowspan=10,padx=2)
     
 Inicio_app()
