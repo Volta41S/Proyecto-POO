@@ -220,7 +220,6 @@ def Nueva_contraseña():
     #bd.commit()
     bd.close()
 
-
 def Cerrar_sesion():
     Inicio.deiconify()
     Menu.destroy()
