@@ -15,6 +15,8 @@ def Inicio_app():
     Inicio.iconbitmap("logotecnica.ico")
     Inicio.resizable(0,0)
 
+   
+
     foto = Image.open("logotecnica1.png")
     resize_image = foto.resize((350,346))
     img = ImageTk.PhotoImage(resize_image)
@@ -144,15 +146,62 @@ def Configuracion():
     
     Label(settings, text="Configuración", bg="white").pack()
 
-    btn1=Button(settings, bg="#8B1C0E", fg="white", text="Cambiar contraseña", width="15")
+    btn1=Button(settings, bg="#8B1C0E", fg="white", text="Cambiar contraseña", width="15", command=Ccontraseña)
     btn1.place(x=115, y=150)
 
     btn2=Button(settings, bg="#8B1C0E", fg="white", text="Reportar errores", width="15")
     btn2.place(x=115, y=200)
 
+    btn3=Button(settings, bg="#8B1C0E", fg="white", text="Cerrar sesión", width="15", command=Cerrar_sesion)
+    btn3.place(x=115, y=250)
+
     Label(settings, text="Versión 1.0.0", bg="white", fg="gray").place(x=125, y=360)
 
     settings.mainloop()
+
+def Ccontraseña():
+    global ccontra
+    ccontra=Toplevel(settings)
+    ccontra.geometry("350x350")
+    ccontra.title("Cambiar contraseña")
+    ccontra.configure(background="white")
+
+    foto = Image.open("logotecnica1.png")
+    resize_image = foto.resize((350,346))
+    img = ImageTk.PhotoImage(resize_image)
+    label1=Label(settings, image = img)
+    label1.place(x=0,y=0)
+
+    Label(ccontra, text="Cambiar contraseña", bg="white").pack()
+    label2 = Label(ccontra, text="Usuario : "+nombreusuario_verify.get()+"", bg="white")
+    label2.place(x=100, y=60)
+
+    global nuevacontrasena_verify
+    global cnuevacontrasena_verify
+
+    nuevacontrasena_verify=StringVar()
+    cnuevacontrasena_verify=StringVar()
+
+    global nuevacontrasena_entry
+    global cnuevacontrasena_entry
+
+    nuevacontrasena_entry = Entry(ccontra, textvariable= nuevacontrasena_verify, borderwidth=1, relief="solid")
+    nuevacontrasena_entry.place(x=150, y= 100)
+    label3 = Label(ccontra, text="Contraseña nueva:", bg="white")
+    label3.place(x=35, y=100)
+    cnuevacontrasena_entry = Entry(ccontra, textvariable= cnuevacontrasena_verify, borderwidth=1, relief="solid")
+    cnuevacontrasena_entry.place(x=150, y= 140)
+    label4 = Label(ccontra, text="Confirmar contraseña:", bg="white")
+    label4.place(x=20, y=140)
+
+    
+
+    ccontra.mainloop()
+
+
+def Cerrar_sesion():
+    Inicio.deiconify()
+    Menu.destroy()
 
 def Agregar_grupo():
     #from AgregarGrupo import A_Grupo
