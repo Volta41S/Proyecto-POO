@@ -33,7 +33,7 @@ def menu_Inicio():
     btn1.place(x=115, y= 150)
     label2=Label(text="o", bg="white", fg="black", font=("Arial"))
     label2.place(x=165, y= 200)
-    btn2=Button(bg="#8B1C0E", fg="white", text="Cerrar", height="2", width="15", command=Cerrar_ventana)
+    btn2=Button(bg="#8B1C0E", fg="white", text="Cerrar", height="2", width="15", command=Inicio.destroy)
     btn2.place(x=115, y=230)
     #place(x=160, y=175)
     #Inicio.wm_attributes("-transparentcolor", 'grey')
@@ -99,9 +99,6 @@ def validar_datos():
         messagebox.showinfo(title="Inicio de sesion incorrecto", message= "Usuario y contraseña incorrecta")
 
     bd.close()
-
-def Cerrar_ventana():
-    Inicio.destroy()
 
 def Cerrar_registro():
     Inicio.deiconify()

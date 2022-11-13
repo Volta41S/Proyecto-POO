@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import*
 from tkinter import ttk
+import sys
 
 def A_Grupo():
     global AgreGrupo
@@ -26,8 +27,8 @@ def A_Grupo():
     Bus_boton=ttk.Button(AgreGrupo,text="Buscar")
     Bus_boton.grid(column=3,row=1,sticky=E,padx=10)
 
-    Can_boton=ttk.Button(AgreGrupo,text="Cancelar")
-    Can_boton.grid(column=1,row=3,padx=10, command=Cancelar)
+    Can_boton=ttk.Button(AgreGrupo,text="Cancelar",command=AgreGrupo.destroy)
+    Can_boton.grid(column=1,row=3,padx=10)
 
     Ace_boton=ttk.Button(AgreGrupo,text="Aceptar")
     Ace_boton.grid(column=2,row=3,padx=10,columnspan=2)
@@ -40,8 +41,8 @@ def A_Grupo():
 
     AgreGrupo.mainloop()
 
-    def Cancelar():
-        AgreGrupo.destroy()
+def aceptar():
+    global aceptar
 
 A_Grupo()
 
