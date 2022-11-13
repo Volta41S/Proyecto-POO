@@ -96,7 +96,7 @@ def validar_datos():
          Menu_Secundario()
 
     else:
-        messagebox.showinfo(title="Inicio de sesion incorrecto", message= "Usuario y contraseña incorrecta")
+        messagebox.showinfo(title="Inicio de sesion incorrecto", message= "Usuario y/o contraseña incorrecta")
 
     bd.close()
 
@@ -169,7 +169,7 @@ def Ccontraseña():
     foto = Image.open("logotecnica1.png")
     resize_image = foto.resize((350,346))
     img = ImageTk.PhotoImage(resize_image)
-    label1=Label(settings, image = img)
+    label1=Label(ccontra, image = img)
     label1.place(x=0,y=0)
 
     Label(ccontra, text="Cambiar contraseña", bg="white").pack()
@@ -194,9 +194,31 @@ def Ccontraseña():
     label4 = Label(ccontra, text="Confirmar contraseña:", bg="white")
     label4.place(x=20, y=140)
 
-    
+    btn1 = Button(ccontra, text="Cambiar", width="10", bg="#8B1C0E", fg="white", command=Nueva_contraseña)
+    btn1.place(x=115, y=190)
+
+    btn2 = Button(ccontra, text="Cancelar", width="10", bg="#8B1C0E", fg="white", command=ccontra.destroy)
+    btn2.place(x=115, y=230)
 
     ccontra.mainloop()
+
+def Nueva_contraseña():
+    if nuevacontrasena_verify.get() == cnuevacontrasena_verify.get():
+        bd=pymysql.connect(
+        host="localhost",
+        user="root",
+        passwd="SQLATb3ar2019",
+        db="Prueba"
+        )
+        fcursor=bd.cursor()
+        fcursor.execute("UPDATE Profesor SET contraseña='"+nuevacontrasena_entry.get()+"' WHERE Nombre_p='"+nombreusuario_verify.get()+"'")
+        bd.commit()
+        messagebox.showinfo(title="Operación exitosa", message= "El cambio de contraseña se realizo exitosamente.")
+        
+    else:
+        messagebox.showinfo(title="Error", message= "Debe ingresar la misma contraseña en ambos campos.")
+    #bd.commit()
+    bd.close()
 
 
 def Cerrar_sesion():
