@@ -28,20 +28,7 @@ def Menu_Secundario():
 
     btn_C=ttk.Button(Menu, image= foto, command=Configuracion)
     btn_C.place(x=15, y=600)
-    global Treeview
-
-    """Treeview = ttk.Treeview(treeviewframe)
-    Treeview['columns']=("col1", "col2", "col3")
-    Treeview.grid(row=2, column=1, columnspan=3)
-    Treeview.column("col1", width=60, anchor=CENTER)
-    Treeview.column("col2", width=60, anchor=CENTER)
-    Treeview.column("col3", width=60, anchor=CENTER)
-    Treeview.heading("#0", text="Id", anchor=CENTER)
-    Treeview.heading("col1", text="Id", anchor=CENTER)
-    Treeview.heading("col2", text="Id", anchor=CENTER)
-    Treeview.heading("col3", text="Id", anchor=CENTER)
-    Treeview.pack()"""
-    #Treeview.place(x=200, y= 50, width= 420, height=259)
+   
     
     Menu.mainloop()
 
