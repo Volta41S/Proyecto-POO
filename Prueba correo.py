@@ -1,25 +1,21 @@
-import smtplib 
+from tkinter import *
+import tkinter as tk
+from tkinter import scrolledtext as st
 
-remitente = "angeldtp03@hotmail.com" 
-destinatario = "angeldtp03@gmail.com" 
-asunto = "E-mal HTML enviado desde Python" 
-mensaje = """Hola!<br/> <br/> 
-Este es un <b>e-mail</b> enviando desde <b>Python</b> 
-"""
-
-email = """From: %s 
-To: %s 
-MIME-Version: 1.0 
-Content-type: text/html 
-Subject: %s 
-
-%s
-""" % (remitente, destinatario, asunto, mensaje) 
-try: 
-    smtp = smtplib.SMTP('localhost') 
-    smtp.sendmail(remitente, destinatario, email) 
-    print ("Correo enviado") 
-except: 
-    print ("Error: el mensaje no pudo enviarse. Compruebe que sendmail se encuentra instalado en su sistema")
+def ventana_p():
+    ventana1=tk.Tk()
+    ventana1.geometry("500x500")
+    global scrolledtext1
+    scrolledtext1=st.ScrolledText(ventana1, width=50, height=10)
+    scrolledtext1.grid(column=0,row=0, padx=40, pady=60)
+    Button(text="imprimir", command=imprimir).grid(column=0, row=15, padx=200, pady=160)
+    
+    
+    ventana1.mainloop()
 
 
+def imprimir():
+    datos=scrolledtext1.get("0.0", tk.END)
+    print(datos)
+
+ventana_p()
