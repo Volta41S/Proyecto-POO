@@ -121,7 +121,8 @@ def Menu_Secundario():
     Menu.configure(background="white")
     Menu.resizable(0,0)
     global tree
-
+    
+    
     tree = ttk.Treeview(Menu, column=("c1", "c2", "c3","c4"), show='headings')
 
     tree.column("#1", anchor=tk.CENTER)
@@ -146,11 +147,13 @@ def Menu_Secundario():
     tree.selection_set(item)
     tree.focus(item)
     
+    button1 = tk.Button(Menu,text="Cargar", command=view, bg="#8B1C0E", fg="white")
+    button1.place(x=150, y=100)
     
-    Label(Menu, text="Acceso al sistema", bg="white", fg="black", width="300", height="3", font=("Arial", 15)).pack()
+    Label(Menu, text="Menu principal", bg="white", fg="black", width="300", height="3", font=("Arial", 15)).pack()
        
-    btn1=Button(Menu,bg="#8B1C0E", fg="white", text="Seleccionar", height="2", width="15", command=Seleccionar_g)
-    btn1.place(x=1000, y= 600)
+    #btn1=Button(Menu,bg="#8B1C0E", fg="white", text="Seleccionar", height="2", width="15", command=Seleccionar_g)
+    #btn1.place(x=1000, y= 600)
     
     #bt2=Button(Menu, bg="#8B1C0E", text="Agregar", fg="white", height="2", width="15", command=Agregar_grupo)
     #bt2.place(x=1000, y=30)
@@ -158,6 +161,39 @@ def Menu_Secundario():
     btn_C.place(x=15, y=600)
 
     Menu.mainloop()
+def view():
+    
+    bd=pymysql.connect(
+        host="localhost",
+        user="root",
+        passwd="SQLATb3ar2019",
+        db="escuela008"
+        )
+    fcursor=bd.cursor()
+
+    fcursor.execute("SELECT * FROM materia;")
+    tree.delete(*tree.get_children())
+    
+    
+    for fila in fcursor:
+        tree.insert("",END, values=(fila[0],fila[1],fila[2], fila[3]))
+        tree.bind("<<TreeviewSelect>>", rama_seleccionada)
+          
+    bd.close() 
+
+def rama_seleccionada(event):
+    current_item = tree.focus()
+    if not current_item:
+        return
+    #data = StringVar()
+    data = tree.item(current_item)
+    global id, nombre, creditos, semestre
+    id = StringVar()
+    id, nombre, creditos, semestre = data["values"]
+    #ident.insert(0,"%i"%id)
+    print(id, nombre, creditos, semestre)
+    
+    Seleccionar_g()
 
 def Configuracion():
     global settings
@@ -308,22 +344,23 @@ def Seleccionar_g():
     seleccion.title("Grupo seleccionado")
     seleccion.iconbitmap("logotecnica.ico")
     seleccion.config(width=550,height=350,padx=10,pady=20)
+    seleccion.config(background="white")
     seleccion.resizable(0,0)
 
-
-    Tit1=Label(seleccion,text="Nombre de grupo",font=("Arial",20))
+    
+    Tit1=Label(seleccion,text=nombre,font=("Arial",20), bg="white")
     Tit1.grid(column=0,row=0,columnspan=5,padx=(40,0),pady=10)
-    CodGru_label=Label(seleccion,text="Calificaciones",font=("Arial",15))
-    CodGru_label.grid(column=0,row=1,columnspan=5,padx=(40,0),pady=(10,20))
+    CodGru_label=Label(seleccion,text="Calificaciones",font=("Arial",15), bg="white")
+    CodGru_label.grid(column=0,row=1,columnspan=5,padx=(40,0),pady=(10,43))
 
     PriTri_boton=Button(seleccion,text="1er trimestre", bg="#8B1C0E",fg="white")
-    PriTri_boton.grid(column=1,row=2,padx=10,pady=10)
+    PriTri_boton.grid(column=0,row=2,padx=0,pady=10)
 
     SegTri_boton=Button(seleccion,text="2do trimestre",bg="#8B1C0E",fg="white")
-    SegTri_boton.grid(column=2,row=2,padx=10,pady=10)
+    SegTri_boton.grid(column=1,row=2,padx=0,pady=10)
 
     TerTri_boton=Button(seleccion,text="3er trimestre",bg="#8B1C0E",fg="white")
-    TerTri_boton.grid(column=3,row=2,padx=10,pady=10)
+    TerTri_boton.grid(column=2,row=2,padx=10,pady=10)
 
     Prom_boton=Button(seleccion,text="Promedio del ciclo escolar",bg="#8B1C0E",fg="white")
     Prom_boton.grid(column=0,row=3,columnspan=5, padx=(50,10),pady=10)
