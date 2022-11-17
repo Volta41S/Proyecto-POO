@@ -120,6 +120,9 @@ def Menu_Secundario():
     Menu.iconbitmap("logotecnica.ico")
     Menu.configure(background="white")
     Menu.resizable(0,0)
+
+    
+
     global tree
     
     
@@ -151,6 +154,11 @@ def Menu_Secundario():
     button1.place(x=150, y=100)
     
     Label(Menu, text="Menu principal", bg="white", fg="black", width="300", height="3", font=("Arial", 15)).pack()
+    foto2 = Image.open("logotecnica.png")
+    resize_image = foto2.resize((70,70))
+    img = ImageTk.PhotoImage(resize_image)
+    label1=Label(Menu, image = img)
+    label1.place(x=10,y=5)
        
     #btn1=Button(Menu,bg="#8B1C0E", fg="white", text="Seleccionar", height="2", width="15", command=Seleccionar_g)
     #btn1.place(x=1000, y= 600)
@@ -177,7 +185,7 @@ def view():
     
     for fila in fcursor:
         tree.insert("",END, values=(fila[0],fila[1],fila[2], fila[3]))
-        tree.bind("<<TreeviewSelect>>", rama_seleccionada)
+        tree.bind("<Double-1>", rama_seleccionada)
           
     bd.close() 
 
@@ -191,7 +199,7 @@ def rama_seleccionada(event):
     id = StringVar()
     id, nombre, creditos, semestre = data["values"]
     #ident.insert(0,"%i"%id)
-    print(id, nombre, creditos, semestre)
+    #print(id, nombre, creditos, semestre)
     
     Seleccionar_g()
 
@@ -349,9 +357,9 @@ def Seleccionar_g():
 
     
     Tit1=Label(seleccion,text=nombre,font=("Arial",20), bg="white")
-    Tit1.grid(column=0,row=0,columnspan=5,padx=(40,0),pady=10)
+    Tit1.grid(column=0,row=0,columnspan=5,padx=30,pady=10)
     CodGru_label=Label(seleccion,text="Calificaciones",font=("Arial",15), bg="white")
-    CodGru_label.grid(column=0,row=1,columnspan=5,padx=(40,0),pady=(10,43))
+    CodGru_label.grid(column=0,row=1,columnspan=5,padx=40,pady=10)
 
     PriTri_boton=Button(seleccion,text="1er trimestre", bg="#8B1C0E",fg="white")
     PriTri_boton.grid(column=0,row=2,padx=0,pady=10)
@@ -363,16 +371,16 @@ def Seleccionar_g():
     TerTri_boton.grid(column=2,row=2,padx=10,pady=10)
 
     Prom_boton=Button(seleccion,text="Promedio del ciclo escolar",bg="#8B1C0E",fg="white")
-    Prom_boton.grid(column=0,row=3,columnspan=5, padx=(50,10),pady=10)
+    Prom_boton.grid(column=0,row=3,columnspan=5, padx=50,pady=10)
 
     Reg_boton=Button(seleccion,text="Regresar",bg="#8B1C0E",fg="white", command=seleccion.destroy)
     Reg_boton.grid(column=0,row=4,padx=20,pady=10)
 
-    espacioder_label = Label(seleccion,width=5)
+    """espacioder_label = Label(seleccion,width=5)
     espacioder_label.grid(column=5,row=0,rowspan=10,padx=2,)
 
     espacioizq_label = Label(seleccion,width=5)
-    espacioizq_label.grid(column=0,row=0,rowspan=10,padx=2)
+    espacioizq_label.grid(column=0,row=0,rowspan=10,padx=2)"""
 
     seleccion=mainloop()
 

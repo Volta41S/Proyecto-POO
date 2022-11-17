@@ -12,6 +12,8 @@ def Ventana():
     global root
     root = tk.Tk()
     root.geometry("1400x600")
+    #root.title("Prueba en ventana")
+    #tk.LabelFrame(root,text="ventana de prueba", bg="#8B1C0E")
     #global combo
     #global results_for_combobox 
     #results_for_combobox = StringVar()
@@ -80,7 +82,7 @@ def view():
     
     for fila in fcursor:
         tree.insert("",END, values=(fila[0],fila[1],fila[2], fila[3]))
-        tree.bind("<<TreeviewSelect>>", rama_seleccionada)
+        tree.bind("<Double-1>", rama_seleccionada)
           
     bd.close() 
         
