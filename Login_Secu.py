@@ -118,21 +118,42 @@ def Menu_Secundario():
     Menu.title("Herramienta KZAJPJ - Menu principal")
     foto = tk.PhotoImage(file="images1.png")
     Menu.iconbitmap("logotecnica.ico")
-    
-    
     Menu.configure(background="white")
-    Label(Menu, text="Acceso al sistema", bg="white", fg="black", width="300", height="3", font=("Arial", 15)).pack()
-    #Label(text="").pack()
+    Menu.resizable(0,0)
+    global tree
+
+    tree = ttk.Treeview(Menu, column=("c1", "c2", "c3","c4"), show='headings')
+
+    tree.column("#1", anchor=tk.CENTER)
+
+    tree.heading("#1", text="ID")
+
+    tree.column("#2", anchor=tk.CENTER)
+
+    tree.heading("#2", text="Materia")
+
+    tree.column("#3", anchor=tk.CENTER)
+
+    tree.heading("#3", text="Creditos")
+
+    tree.column("#4", anchor=tk.CENTER)
+
+    tree.heading("#4", text="Semestre")
+    #tree.bind("<<TreeviewSelect>>", on_tree_select)
+
+    tree.place(x=200, y=130)
+    item = tree.identify_row(0)
+    tree.selection_set(item)
+    tree.focus(item)
     
-    #btn1=ttk.Button(Menu, style="C.TButton", text="Seleccionar")
+    
+    Label(Menu, text="Acceso al sistema", bg="white", fg="black", width="300", height="3", font=("Arial", 15)).pack()
+       
     btn1=Button(Menu,bg="#8B1C0E", fg="white", text="Seleccionar", height="2", width="15", command=Seleccionar_g)
     btn1.place(x=1000, y= 600)
-    #Label(text="").pack()
-    bt2=Button(Menu, bg="#8B1C0E", text="Agregar", fg="white", height="2", width="15", command=Agregar_grupo)
-    bt2.place(x=1000, y=30)
-   # btn3=Button(Menu, text="Configuración", width="10", command=Configuracion)
-   #btn3.place(x=15, y=600)
-
+    
+    #bt2=Button(Menu, bg="#8B1C0E", text="Agregar", fg="white", height="2", width="15", command=Agregar_grupo)
+    #bt2.place(x=1000, y=30)
     btn_C=ttk.Button(Menu, image= foto, command=Configuracion)
     btn_C.place(x=15, y=600)
 
@@ -213,30 +234,32 @@ def Ccontraseña():
     ccontra.mainloop()
 
 def Nueva_contraseña():
-    if nuevacontrasena_verify.get() == cnuevacontrasena_verify.get():
-        if nuevacontrasena_verify.get() != contrasenausuario_verify.get():
-            try:
-                bd=pymysql.connect(
-                host="localhost",
-                user="root",
-                passwd="SQLATb3ar2019",
-                db="Prueba"
-                )
-                fcursor=bd.cursor()
-                fcursor.execute("UPDATE Profesor SET contraseña='"+nuevacontrasena_verify.get()+"' WHERE Nombre_p='"+nombreusuario_verify.get()+"'")
-                bd.commit()
-                messagebox.showinfo(title="Operación exitosa", message= "El cambio de contraseña se realizo exitosamente.")
-                bd.close()
-                contrasenausuario_verify.set(nuevacontrasena_verify.get())
-                nuevacontrasena_verify.set("")
-                cnuevacontrasena_verify.set("")
-            except:
-                messagebox.showerror(title="Error", message= "No se pudo establecer conexion.")
+    if (len(nuevacontrasena_verify.get())<6 and len(nuevacontrasena_verify.get())>8):
+        if nuevacontrasena_verify.get() == cnuevacontrasena_verify.get():
+            if nuevacontrasena_verify.get() != contrasenausuario_verify.get():
+                try:
+                    bd=pymysql.connect(
+                    host="localhost",
+                    user="root",
+                    passwd="SQLATb3ar2019",
+                    db="Prueba"
+                    )
+                    fcursor=bd.cursor()
+                    fcursor.execute("UPDATE Profesor SET contraseña='"+nuevacontrasena_verify.get()+"' WHERE Nombre_p='"+nombreusuario_verify.get()+"'")
+                    bd.commit()
+                    messagebox.showinfo(title="Operación exitosa", message= "El cambio de contraseña se realizo exitosamente.")
+                    bd.close()
+                    contrasenausuario_verify.set(nuevacontrasena_verify.get())
+                    nuevacontrasena_verify.set("")
+                    cnuevacontrasena_verify.set("")
+                except:
+                    messagebox.showerror(title="Error", message= "No se pudo establecer conexion.")
+            else:
+                messagebox.showwarning(title="Advertencia", message= "La nueva contraseña no puede ser igual a la actual.")
         else:
-            messagebox.showwarning(title="Advertencia", message= "La nueva contraseña no puede ser igual a la actual.")
+            messagebox.showerror(title="Error", message= "Debe ingresar la misma contraseña en ambos campos.")
     else:
-        messagebox.showerror(title="Error", message= "Debe ingresar la misma contraseña en ambos campos.")
-    
+        messagebox.showerror(title="Advertencia", message= "La contraseña debe ser de al menos 6 caracteres y un maximo de 8 caracteres.")
 def Cerrar_sesion():
     Inicio.deiconify()
     Menu.destroy()
@@ -278,42 +301,6 @@ def Agregar_grupo():
 
     espacioizq_label = Label(AgreGrupo,width=5)
     espacioizq_label.grid(column=0,row=0,rowspan=10,padx=2)
-        
-def Eliminar_grupo():
-    global EliGrupo
-    EliGrupo=Toplevel(Menu)
-    EliGrupo.title("Eliminar grupo")
-    EliGrupo.config(width=550,height=350,padx=10,pady=20)
-
-    Tit1=Label(EliGrupo,text="Agregar Grupo",font=("Arial",20))
-    Tit1.grid(column=0,row=0,columnspan=5,pady=(0,10), padx=10)
-    CodGru_label=Label(EliGrupo,text="Codigo de grupo:",font=("Arial",10))
-    CodGru_label.grid(column=1,row=1,pady=(0,10))
-    NomGru_label=Label(EliGrupo,text="Nombre de grupo:",font=("Arial",10))
-    NomGru_label.grid(column=1,row=2,pady=(0,10), padx=10)
-
-    CodGru=StringVar()
-    CodGru_Entry = Entry(EliGrupo, textvariable=CodGru, state="normal", width=15)
-    CodGru_Entry.grid(column=2, row=1, sticky=W)
-
-    NomGru=StringVar()
-    NomGru_entry = Entry(EliGrupo, textvariable=CodGru, state="normal", width=30)
-    NomGru_entry.grid(column=2, row=2, columnspan=5,sticky=W)
-
-    Bus_boton=ttk.Button(EliGrupo,text="Buscar")
-    Bus_boton.grid(column=3,row=1,sticky=E,padx=10)
-
-    Can_boton=ttk.Button(EliGrupo,text="Cancelar",command=AgreGrupo.destroy)
-    Can_boton.grid(column=1,row=3,padx=10)
-
-    Ace_boton=ttk.Button(EliGrupo,text="Aceptar")
-    Ace_boton.grid(column=2,row=3,padx=10,columnspan=2)
-
-    espacioder_label = Label(EliGrupo,width=5)
-    espacioder_label.grid(column=5,row=0,rowspan=10,padx=2,columnspan=2)
-
-    espacioizq_label = Label(EliGrupo,width=5)
-    espacioizq_label.grid(column=0,row=0,rowspan=10,padx=2)
     
 def Seleccionar_g():
     
@@ -321,6 +308,7 @@ def Seleccionar_g():
     seleccion.title("Grupo seleccionado")
     seleccion.iconbitmap("logotecnica.ico")
     seleccion.config(width=550,height=350,padx=10,pady=20)
+    seleccion.resizable(0,0)
 
 
     Tit1=Label(seleccion,text="Nombre de grupo",font=("Arial",20))
@@ -357,6 +345,7 @@ def RE():
     Reporte.config(background="white")
     Reporte.iconbitmap("logotecnica.ico")
     Reporte.geometry("500x300")
+    Reporte.resizable(0,0)
     
     global scrolledtext1
     Label(Reporte,text="Reporte de errores", bg="White", font=("Arial",15)).grid(column=0, row=0, padx=170, pady=0)

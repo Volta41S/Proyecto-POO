@@ -1,5 +1,5 @@
 from tkinter import ttk
-
+from tkinter import messagebox
 import tkinter as tk
 from tkinter import *
 
@@ -12,6 +12,11 @@ def Ventana():
     global root
     root = tk.Tk()
     root.geometry("1400x600")
+    #global combo
+    #global results_for_combobox 
+    #results_for_combobox = StringVar()
+    B_maestros()
+    global ident
     
     global tree
     tree = ttk.Treeview(root, column=("c1", "c2", "c3","c4"), show='headings')
@@ -37,9 +42,13 @@ def Ventana():
     item = tree.identify_row(0)
     tree.selection_set(item)
     tree.focus(item)
+    ident=Entry(root, textvariable = "", borderwidth=1, relief="solid")
+    ident.pack()
     
     Button(root, text="Show Selected", command=item_opened).pack()
     button1 = tk.Button(text="Display data", command=view)
+
+    
     """b1 = Button(
     root, 
     text="Browse",
@@ -57,7 +66,6 @@ def Ventana():
 
 def view():
     
-    #my_w = tk.Tk()
     bd=pymysql.connect(
         host="localhost",
         user="root",
@@ -68,49 +76,19 @@ def view():
 
     fcursor.execute("SELECT * FROM materia;")
     tree.delete(*tree.get_children())
-    #fila = fcursor.fetchone()
-   # tree.insert("", END, values=fila)
+    
     
     for fila in fcursor:
         tree.insert("",END, values=(fila[0],fila[1],fila[2], fila[3]))
         tree.bind("<<TreeviewSelect>>", rama_seleccionada)
-        #tree.tag_bind("<Double-1>", item_opened)
-        #for j in range(len(fila)):
-            #tree.grid(row=i, column=j) 
-            
-        
-
-
-        #print(row) 
-
-        
-
+          
     bd.close() 
-####### end of connection ####
-    
-   #i=0 
-    """for student in fcursor: 
-        for j in range(len(student)):
-            e = Entry(my_w, width=30, fg='blue') 
-            e.grid(row=i, column=j) 
-            e.insert(END, student[j])
-        i=i+1
-    my_w.mainloop()"""
         
 def item_opened():
     x=tree.selection()
     Label(root, text=x, bg="blue", fg="white").pack()
     print(tree.selection)
-    #iid = tree.selection()
-    #item=tree.identify('item', event.x,event.y)
-    #Label(root,text=tree.item(item,"text")).place(x=0, y=0)
-    #Label(root,text="Hola").place(x=0, y=0)
-   #input_id = tree.selection()
-   #input_item = tree.item(input_id,"text")
-   #from Login_Secu import Inicio_app
-
-"""def selectmode_browse():
-    tree['selectmode']="browse"""
+    
 def rama_seleccionada(event):
     current_item = tree.focus()
     if not current_item:
@@ -120,11 +98,13 @@ def rama_seleccionada(event):
     global id, nombre, creditos, semestre
     id = StringVar()
     id, nombre, creditos, semestre = data["values"]
+    ident.insert(0,"%i"%id)
     print(id, nombre, creditos, semestre)
+    
     Segunda_ventana()
-    #Entry(root, textvariable = id, borderwidth=1, relief="solid").pack()
-    #Entry(root, textvariable = Nombre, borderwidth=1, relief="solid").pack()
-    #Entry(root, textvariable = creditos, borderwidth=1, relief="solid").pack()
+    
+    #Entry(root, textvariable = Nombre.get, borderwidth=1, relief="solid").pack()
+    #Entry(root, textvariable = creditos.get, borderwidth=1, relief="solid").pack()
     #Entry(root, textvariable = semestre, borderwidth=1, relief="solid").pack()
 def Segunda_ventana():
     V2 = Toplevel(root)
@@ -143,16 +123,6 @@ def Segunda_ventana():
     
     tree2.place(x=400, y=100)
     Calificaciones()
-    """item = tree2.identify_row(0)
-    tree.selection_set(item)
-    tree.focus(item)"""
-    
-    #Button(root, text="Show Selected", command=item_opened).pack()
-    #button1 = tk.Button(text="Display data", command=view)
-    #button1.pack(pady=10)
-
-    
-
     V2.mainloop()
 
 def Calificaciones():
@@ -164,7 +134,7 @@ def Calificaciones():
         )
     fcursor=bd.cursor()
 
-    fcursor.execute("SELECT matricula_id1 , calificacion From mat_alu, mat_pro, alumno WHERE (profe_id=1 AND materia_id1=%i AND matricula_id=matricula_id1) group by matricula_id1;"%(id))
+    fcursor.execute("SELECT matricula_id1 , calificacion From mat_alu, mat_pro, alumno WHERE (profe_id=%s AND materia_id1=%i AND matricula_id=matricula_id1) group by matricula_id1;"%(selection,id))
     tree2.delete(*tree2.get_children())
     #fila = fcursor.fetchone()
    # tree.insert("", END, values=fila)
@@ -175,6 +145,39 @@ def Calificaciones():
        
 
     bd.close() 
+
+def B_maestros():
+    global combo
+    bd=pymysql.connect(
+        host="localhost",
+        user="root",
+        passwd="SQLATb3ar2019",
+        db="escuela008"
+        )
+    fcursor=bd.cursor()
+
+    fcursor.execute("SELECT Prof_id FROM profesor;")
+    fila = fcursor.fetchall()
+    
+    bd.close() 
+    #tree2.delete(*tree2.get_children())
+    #fila = fcursor.fetchone()
+    # tree.insert("", END, values=fila)
+    results_for_combobox = [result[0] for result in fila]
+    #tree2.bind("<<TreeviewSelect>>", rama_seleccionada)
+    combo = ttk.Combobox(root,state="readonly",
+    values = results_for_combobox)
+    combo.bind("<<ComboboxSelected>>", selection_changed)
+    combo.place(x=50, y=50)
+
+    
+def selection_changed(event):
+    global selection
+    selection = combo.get()
+    """messagebox.showinfo(
+        title="Nuevo elemento seleccionado",
+        message=selection
+    )"""
 
 Ventana()
 
