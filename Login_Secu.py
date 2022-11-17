@@ -1,9 +1,13 @@
 import tkinter as tk
 import pymysql
-#import cv2
 from tkinter import *
 from tkinter import messagebox, ttk
+from tkinter import scrolledtext as st
 from PIL import ImageTk, Image
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+
 
 
 def Inicio_app():
@@ -81,24 +85,27 @@ def Inicio_sesion():
     InicioS.mainloop()
  
 def validar_datos():
-    bd=pymysql.connect(
-        host="localhost",
-        user="root",
-        passwd="SQLATb3ar2019",
-        db="Prueba"
-        )
-    fcursor=bd.cursor()
-    fcursor.execute("SELECT contraseña FROM Profesor WHERE Nombre_p='"+nombreusuario_verify.get()+"' and contraseña='"+contrasenausuario_verify.get()+"'")
+    try:
+        bd=pymysql.connect(
+            host="localhost",
+            user="root",
+            passwd="SQLATb3ar2019",
+            db="Prueba"
+            )
+        fcursor=bd.cursor()
+        fcursor.execute("SELECT contraseña FROM Profesor WHERE Nombre_p='"+nombreusuario_verify.get()+"' and contraseña='"+contrasenausuario_verify.get()+"'")
 
-    if fcursor.fetchall():
-         messagebox.showinfo(title="Inicio de sesion correcto", message= "Usuario y contraseña correcta")
-         InicioS.destroy()
-         Menu_Secundario()
+        if fcursor.fetchall():
+            messagebox.showinfo(title="Inicio de sesion correcto", message= "Usuario y contraseña correcta")
+            InicioS.destroy()
+            Menu_Secundario()
 
-    else:
-        messagebox.showinfo(title="Inicio de sesion incorrecto", message= "Usuario y/o contraseña incorrecta")
+        else:
+            messagebox.showerror(title="Inicio de sesion incorrecto", message= "Usuario y/o contraseña incorrecta")
 
-    bd.close()
+        bd.close()
+    except:
+        messagebox.showerror(title="Error", message= "No se pudo establecer conexion.")
 
 def Cerrar_registro():
     Inicio.deiconify()
@@ -110,7 +117,8 @@ def Menu_Secundario():
     Menu.geometry("1200x700")
     Menu.title("Herramienta KZAJPJ - Menu principal")
     foto = tk.PhotoImage(file="images1.png")
-    #Menu.resizable(0,-30)
+    Menu.iconbitmap("logotecnica.ico")
+    
     
     Menu.configure(background="white")
     Label(Menu, text="Acceso al sistema", bg="white", fg="black", width="300", height="3", font=("Arial", 15)).pack()
@@ -136,6 +144,7 @@ def Configuracion():
     settings.geometry("350x380")
     settings.title("Configuración")
     settings.configure(background="white")
+    settings.iconbitmap("logotecnica.ico")
     settings.resizable(0,0) 
 
     foto = Image.open("logotecnica1.png")
@@ -149,7 +158,7 @@ def Configuracion():
     btn1=Button(settings, bg="#8B1C0E", fg="white", text="Cambiar contraseña", width="15", command=Ccontraseña)
     btn1.place(x=115, y=150)
 
-    btn2=Button(settings, bg="#8B1C0E", fg="white", text="Reportar errores", width="15")
+    btn2=Button(settings, bg="#8B1C0E", fg="white", text="Reportar errores", width="15", command=RE)
     btn2.place(x=115, y=200)
 
     btn3=Button(settings, bg="#8B1C0E", fg="white", text="Cerrar sesión", width="15", command=Cerrar_sesion)
@@ -164,6 +173,7 @@ def Ccontraseña():
     ccontra=Toplevel(settings)
     ccontra.geometry("350x350")
     ccontra.title("Cambiar contraseña")
+    ccontra.iconbitmap("logotecnica.ico")
     ccontra.configure(background="white")
 
     foto = Image.open("logotecnica1.png")
@@ -185,11 +195,11 @@ def Ccontraseña():
     global nuevacontrasena_entry
     global cnuevacontrasena_entry
 
-    nuevacontrasena_entry = Entry(ccontra, textvariable= nuevacontrasena_verify, borderwidth=1, relief="solid")
+    nuevacontrasena_entry = Entry(ccontra, textvariable= nuevacontrasena_verify, borderwidth=1, relief="solid", show="*")
     nuevacontrasena_entry.place(x=150, y= 100)
     label3 = Label(ccontra, text="Contraseña nueva:", bg="white")
     label3.place(x=35, y=100)
-    cnuevacontrasena_entry = Entry(ccontra, textvariable= cnuevacontrasena_verify, borderwidth=1, relief="solid")
+    cnuevacontrasena_entry = Entry(ccontra, textvariable= cnuevacontrasena_verify, borderwidth=1, relief="solid", show="*")
     cnuevacontrasena_entry.place(x=150, y= 140)
     label4 = Label(ccontra, text="Confirmar contraseña:", bg="white")
     label4.place(x=20, y=140)
@@ -204,22 +214,29 @@ def Ccontraseña():
 
 def Nueva_contraseña():
     if nuevacontrasena_verify.get() == cnuevacontrasena_verify.get():
-        bd=pymysql.connect(
-        host="localhost",
-        user="root",
-        passwd="SQLATb3ar2019",
-        db="Prueba"
-        )
-        fcursor=bd.cursor()
-        fcursor.execute("UPDATE Profesor SET contraseña='"+nuevacontrasena_entry.get()+"' WHERE Nombre_p='"+nombreusuario_verify.get()+"'")
-        bd.commit()
-        messagebox.showinfo(title="Operación exitosa", message= "El cambio de contraseña se realizo exitosamente.")
-        
+        if nuevacontrasena_verify.get() != contrasenausuario_verify.get():
+            try:
+                bd=pymysql.connect(
+                host="localhost",
+                user="root",
+                passwd="SQLATb3ar2019",
+                db="Prueba"
+                )
+                fcursor=bd.cursor()
+                fcursor.execute("UPDATE Profesor SET contraseña='"+nuevacontrasena_verify.get()+"' WHERE Nombre_p='"+nombreusuario_verify.get()+"'")
+                bd.commit()
+                messagebox.showinfo(title="Operación exitosa", message= "El cambio de contraseña se realizo exitosamente.")
+                bd.close()
+                contrasenausuario_verify.set(nuevacontrasena_verify.get())
+                nuevacontrasena_verify.set("")
+                cnuevacontrasena_verify.set("")
+            except:
+                messagebox.showerror(title="Error", message= "No se pudo establecer conexion.")
+        else:
+            messagebox.showwarning(title="Advertencia", message= "La nueva contraseña no puede ser igual a la actual.")
     else:
-        messagebox.showinfo(title="Error", message= "Debe ingresar la misma contraseña en ambos campos.")
-    #bd.commit()
-    bd.close()
-
+        messagebox.showerror(title="Error", message= "Debe ingresar la misma contraseña en ambos campos.")
+    
 def Cerrar_sesion():
     Inicio.deiconify()
     Menu.destroy()
@@ -230,6 +247,7 @@ def Agregar_grupo():
     AgreGrupo=Toplevel(Menu)
     AgreGrupo.title("Agregar grupo")
     AgreGrupo.config(width=550,height=350,padx=10,pady=20)
+    AgreGrupo.iconbitmap("logotecnica.ico")
 
     Tit1=Label(AgreGrupo,text="Agregar Grupo",font=("Arial",20))
     Tit1.grid(column=0,row=0,columnspan=5,pady=(0,10), padx=10)
@@ -299,8 +317,9 @@ def Eliminar_grupo():
     
 def Seleccionar_g():
     
-
     seleccion=Toplevel(Menu)
+    seleccion.title("Grupo seleccionado")
+    seleccion.iconbitmap("logotecnica.ico")
     seleccion.config(width=550,height=350,padx=10,pady=20)
 
 
@@ -331,5 +350,67 @@ def Seleccionar_g():
     espacioizq_label.grid(column=0,row=0,rowspan=10,padx=2)
 
     seleccion=mainloop()
+
+def RE():
+    Reporte=Toplevel(Menu)
+    Reporte.title("Reporte de errores")
+    Reporte.config(background="white")
+    Reporte.iconbitmap("logotecnica.ico")
+    Reporte.geometry("500x300")
+    
+    global scrolledtext1
+    Label(Reporte,text="Reporte de errores", bg="White", font=("Arial",15)).grid(column=0, row=0, padx=170, pady=0)
+    Label(Reporte,text="Ingrese aqui los problemas que haya tenido", bg="White", font=("Arial",10)).grid(column=0, row=1, padx=100, pady=0)
+    scrolledtext1=st.ScrolledText(Reporte, width=50, height=10, relief=SOLID)
+    scrolledtext1.grid(column=0,row=2, padx=40, pady=0)
+    Button(Reporte, text="Enviar", command=imprimir, bg="#8B1C0E", fg="white", width="10").grid(column=0, row=3, padx=200, pady=5)
+    Button(Reporte, text="Regresar", command=Reporte.destroy, bg="#8B1C0E", fg="white", width="10").grid(column=0, row=4, padx=140, pady=5)
+    
+    Reporte.mainloop()
+
+def imprimir():
+    datos=StringVar()
+    datos=scrolledtext1.get("0.0", tk.END)
+    #print(datos)
+    
+    if not (datos.isspace()):
+        try:
+            msg = MIMEMultipart()
+        
+        
+            message = datos
+            
+            # setup the parameters of the message
+            password = "nwqfwdgfucljameu"
+            msg['From'] = "herramientakzajjpj@gmail.com"
+            msg['To'] = "angel.torresprd@uanl.edu.mx"
+            msg['Subject'] = "Reporte de errores"
+            
+            # add in the message body
+            msg.attach(MIMEText(message, 'plain'))
+            
+            #create server
+            server = smtplib.SMTP('smtp.gmail.com: 587')
+            
+            server.starttls()
+            
+            # Login Credentials for sending the mail
+            server.login(msg['From'], password)
+            
+            
+            # send the message via the server.
+            server.sendmail(msg['From'], msg['To'], msg.as_string())
+            
+            server.quit()
+            messagebox.showinfo(title="Operacion exitosa", message= "El reporte se envio con exito")
+            #print ("successfully sent email to %s:" % (msg['To']))
+            #print(datos)
+            scrolledtext1.delete("0.0", tk.END)
+        except:
+            messagebox.showerror(title="Error de conexion", message= "No se pudo contactar con el servidor")
+        
+        
+    else:
+        messagebox.showwarning(title="Mensaje no valido", message= "Debe ingresar texto")
 
 Inicio_app()

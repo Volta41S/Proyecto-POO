@@ -25,7 +25,7 @@ def RE():
 def imprimir():
     datos=StringVar()
     datos=scrolledtext1.get("0.0", tk.END)
-    print(datos)
+    #print(datos)
     
     if not (datos.isspace()):
         try:
@@ -37,7 +37,7 @@ def imprimir():
             # setup the parameters of the message
             password = "nwqfwdgfucljameu"
             msg['From'] = "herramientakzajjpj@gmail.com"
-            msg['To'] = "angeldtp03@gmail.com"
+            msg['To'] = "angel.torresprd@uanl.edu.mx"
             msg['Subject'] = "Reporte de errores"
             
             # add in the message body
@@ -57,12 +57,13 @@ def imprimir():
             
             server.quit()
             messagebox.showinfo(title="Operacion exitosa", message= "El reporte se envio con exito")
-            print ("successfully sent email to %s:" % (msg['To']))
-            print(datos)
+            #print ("successfully sent email to %s:" % (msg['To']))
+            #print(datos)
+            scrolledtext1.delete("0.0", tk.END)
         except:
-            messagebox.showinfo(title="Error de conexion", message= "No se pudo contactar con el servidor")
+            messagebox.showerror(title="Error de conexion", message= "No se pudo contactar con el servidor")
         
         
     else:
-        messagebox.showinfo(title="Mensaje no valido", message= "Debe ingresar texto")
+        messagebox.showwarning(title="Mensaje no valido", message= "Debe ingresar texto")
 RE()
