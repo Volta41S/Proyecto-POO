@@ -536,25 +536,27 @@ def rama_seleccionada2(event):
     folio_alu, no_lista, nombre_alumno, act_1, act_2,act_3,act_4, act_5, act_6,act_7, act_8, act_9, act_10, Examen, Promedio = data["values"]
     
     Folio_entry.insert(0,"%s"%folio_alu)
-    print("UPDATE trimestre%i SET %s= %s WHERE folio_alumno=%s and clave_clase like '%s'"%(Trimestre, combo.get(),valor_entry.get(), Folio_entry.get(), Clave))
+    #print("UPDATE trimestre%i SET %s= %s WHERE folio_alumno=%s and clave_clase like '%s'"%(Trimestre, combo.get(),valor_entry.get(), Folio_entry.get(), Clave))
 
 def Guardar_C():
-    try:
-        bd=pymysql.connect(
-        host="localhost",
-        user="root",
-        passwd="SQLATb3ar2019",
-        db="secundaria39Demo5"
-        )
-        fcursor=bd.cursor()
-        fcursor.execute("UPDATE trimestre%i SET %s= %s WHERE folio_alu=%s and clave_clase like '%s';"%(Trimestre, combo.get(),valor_entry.get(), Folio_entry.get(), Clave))
-        bd.commit()
-        messagebox.showinfo(title="Operación exitosa", message= "El cambio de contraseña se realizo exitosamente.")
-        bd.close()
-        Obtener_c()
-    except:
-        messagebox.showerror(title="Error", message= "No se pudo establecer conexion.")
-
+    if Folio_entry.get().isdigit() and not combo.get().isspace():
+        try:
+            bd=pymysql.connect(
+            host="localhost",
+            user="root",
+            passwd="SQLATb3ar2019",
+            db="secundaria39Demo5"
+            )
+            fcursor=bd.cursor()
+            fcursor.execute("UPDATE trimestre%i SET %s= %s WHERE folio_alu=%s and clave_clase like '%s';"%(Trimestre, combo.get(),valor_entry.get(), Folio_entry.get(), Clave))
+            bd.commit()
+            messagebox.showinfo(title="Operación exitosa", message= "El cambio de calificación se realizo exitosamente.")
+            bd.close()
+            Obtener_c()
+        except:
+            messagebox.showerror(title="Error", message= "No se pudo establecer conexion.")
+    else:
+        messagebox.showwarning(title="Advertencia", message= "Debe llenar los campos.")
 def RE():
     Reporte=Toplevel(Menu)
     Reporte.title("Reporte de errores")
