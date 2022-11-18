@@ -21,7 +21,7 @@ def Ventana():
     global ident
     
     global tree
-    tree = ttk.Treeview(root, column=("c1", "c2", "c3","c4"), show='headings')
+    tree = ttk.Treeview(root, column=("c1", "c2", "c3","c4","c5"), show='headings')
 
     tree.column("#1", anchor=tk.CENTER)
 
@@ -38,9 +38,16 @@ def Ventana():
     tree.column("#4", anchor=tk.CENTER)
 
     tree.heading("#4", text="Semestre")
+    tree.column("#5", anchor=tk.CENTER)
+
+    tree.heading("#5", text="Hola")
     #tree.bind("<<TreeviewSelect>>", on_tree_select)
 
-    tree.place(x=400, y=100)
+    tree.place(x=200, y=100, width=600)
+    scroll_databaseH = Scrollbar(root, orient="horizontal", command=tree.xview)
+    scroll_databaseH.place(x=200, y=325, width=600)
+    tree.configure(xscrollcommand=scroll_databaseH.set)
+
     item = tree.identify_row(0)
     tree.selection_set(item)
     tree.focus(item)
@@ -162,11 +169,12 @@ def B_maestros():
     fila = fcursor.fetchall()
     
     bd.close() 
+    #tree2.bind("<<TreeviewSelect>>", rama_seleccionada)
     #tree2.delete(*tree2.get_children())
     #fila = fcursor.fetchone()
     # tree.insert("", END, values=fila)
     results_for_combobox = [result[0] for result in fila]
-    #tree2.bind("<<TreeviewSelect>>", rama_seleccionada)
+    
     combo = ttk.Combobox(root,state="readonly",
     values = results_for_combobox)
     combo.bind("<<ComboboxSelected>>", selection_changed)
