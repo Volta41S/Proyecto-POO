@@ -208,17 +208,17 @@ clave_clase varchar (15) not null,
 folio_alu int not null,
 no_lista smallint not null,
 nombre_alumno varchar (90) not null,
-act_1 float not null,
-act_2 float not null,
-act_3 float not null,
-act_4 float not null,
-act_5 float not null,
-act_6 float not null,
-act_7 float not null,
-act_8 float not null,
-act_9 float not null,
-act_10 float not null,
-Examen float not null,
+act_1 float,
+act_2 float,
+act_3 float,
+act_4 float,
+act_5 float,
+act_6 float,
+act_7 float,
+act_8 float,
+act_9 float,
+act_10 float,
+Examen float,
 Promedio float,
 constraint fkclases foreign key  (clave_clase) references clases(clave_clase),
 constraint fkalumno foreign key  (folio_alu) references alumno(folio_alu)
@@ -230,17 +230,17 @@ clave_clase varchar (15) not null,
 folio_alu int not null,
 no_lista smallint not null,
 nombre_alumno varchar (90) not null,
-act_1 float not null,
-act_2 float not null,
-act_3 float not null,
-act_4 float not null,
-act_5 float not null,
-act_6 float not null,
-act_7 float not null,
-act_8 float not null,
-act_9 float not null,
-act_10 float not null,
-Examen float not null,
+act_1 float,
+act_2 float,
+act_3 float,
+act_4 float,
+act_5 float,
+act_6 float,
+act_7 float,
+act_8 float,
+act_9 float,
+act_10 float,
+Examen float,
 Promedio float,
 constraint fkclases1 foreign key  (clave_clase) references clases(clave_clase),
 constraint fkalumno1 foreign key  (folio_alu) references alumno(folio_alu)
@@ -252,17 +252,17 @@ clave_clase varchar (15) not null,
 folio_alu int not null,
 no_lista smallint not null,
 nombre_alumno varchar (90) not null,
-act_1 float not null,
-act_2 float not null,
-act_3 float not null,
-act_4 float not null,
-act_5 float not null,
-act_6 float not null,
-act_7 float not null,
-act_8 float not null,
-act_9 float not null,
-act_10 float not null,
-Examen float not null,
+act_1 float,
+act_2 float,
+act_3 float,
+act_4 float,
+act_5 float,
+act_6 float,
+act_7 float,
+act_8 float,
+act_9 float,
+act_10 float,
+Examen float,
 Promedio float,
 constraint fkclases2 foreign key  (clave_clase) references clases(clave_clase),
 constraint fkalumno2 foreign key  (folio_alu) references alumno(folio_alu)
@@ -307,8 +307,11 @@ values ('pcgmat121a', '1000001', '1', 'Nancy Sarahi Arroyo Reyes', '85','90','91
         ('pcgmat121a', '1000035', '35', 'Fabiola Villarreal Ramirez', '0','0','20','0', '15', '0', '0', '0', '0', '0', '0', null);
         
 select clave_clase, folio_alu, no_lista, nombre_alumno, act_1, act_2, act_3, act_4, act_5 act_6, act_7, act_8, act_9, act_10, Examen,
- avg(act_1+act_2+act_3+act_4+act_5+act_6+act_7+act_8+act_9+act_10+Examen)/11 Promedio from trimestre1
+ round(avg(act_1+act_2+act_3+act_4+act_5+act_6+act_7+act_8+act_9+act_10+Examen)/11, 2) Promedio from trimestre1
 group by clave_clase, folio_alu, no_lista, nombre_alumno;
+select * from trimestre1 group by clave_clase, folio_alu, no_lista, nombre_alumno;
+UPDATE trimestre1 SET Promedio= (Select round(avg(act_1+act_2+act_3+act_4+act_5+act_6+act_7+act_8+act_9+act_10+Examen)/11, 2)) WHERE folio_alu=1000035 and clave_clase like 'pcgmat121a';
+
 
 insert into trimestre2
 values  ('pcgmat121a', '1000001', '1', 'Nancy Sarahi Arroyo Reyes', '90','100','91','88', '95', '93', '87', '89', '92', '97', '92', null),
@@ -391,3 +394,12 @@ values  ('pcgmat121a', '1000001', '1', 'Nancy Sarahi Arroyo Reyes', '90','100','
 select clave_clase, folio_alu, no_lista, nombre_alumno, act_1, act_2, act_3, act_4, act_5 act_6, act_7, act_8, act_9, act_10, Examen,
  avg(act_1+act_2+act_3+act_4+act_5+act_6+act_7+act_8+act_9+act_10+Examen)/11 Promedio from trimestre3
 group by clave_clase, folio_alu, no_lista, nombre_alumno;
+
+select b.folio_alu, b.no_lista,b.nombre_alumno,b.Promedio Trimestre_1, c.Promedio Trimestre_2, d.Promedio Trimestre_3, round(avg(b.Promedio+c.Promedio+d.Promedio)/3,0) Final from Trimestre1 as b, Trimestre2 as c, Trimestre3 as d
+where (((b.folio_alu = c.folio_alu) and (c.folio_alu = d.folio_alu)))and (b.clave_clase like 'pcgmat121a'and ((b.clave_clase=c.clave_clase)and(c.clave_clase=d.clave_clase)))
+group by b.folio_alu, b.clave_clase; 
+/*(b.folio_alu = 1000035 and ((b.folio_alu = c.folio_alu) and (c.folio_alu = d.folio_alu))) and (b.clave_clase like 'pcgmat121a' and ((b.clave_clase=c.clave_clase)and(c.clave_clase=d.clave_clase))) 
+group by b.folio_alu, b.clave_clase; 
+inner join b on a.folio_alu = b.folio_alu
+inner join c on a.folio_alu = c.folio_alu
+inner join d on a.folio_alu = d.folio_alu*/

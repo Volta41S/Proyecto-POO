@@ -89,9 +89,9 @@ def validar_datos():
     try:
         bd=pymysql.connect(
             host="localhost",
-            user="root",
-            passwd="SQLATb3ar2019",
-            db="secundaria39Demo5"
+            user="kzajjpj",
+            passwd="",
+            db="secundaria39Demo6"
             )
         fcursor=bd.cursor()
         fcursor.execute("SELECT contraseña_ma FROM maestro WHERE codigo_ma="+nombreusuario_verify.get()+" and contraseña_ma='"+contrasenausuario_verify.get()+"'")
@@ -108,7 +108,6 @@ def validar_datos():
     except:
         messagebox.showerror(title="Error", message= "No se pudo establecer conexion.")
     
-
 def Cerrar_registro():
     Inicio.deiconify()
     InicioS.destroy()
@@ -174,13 +173,14 @@ def Menu_Secundario():
     btn_C.place(x=15, y=600)
 
     Menu.mainloop()
+
 def view():
     
     bd=pymysql.connect(
         host="localhost",
-        user="root",
-        passwd="SQLATb3ar2019",
-        db="secundaria39Demo5"
+        user="kzajjpj",
+        passwd="",
+        db="secundaria39Demo6"
         )
     fcursor=bd.cursor()
 
@@ -203,7 +203,7 @@ def rama_seleccionada(event):
     global id, codigo_mat, nombre_mat, Hora, Grupo, Clave
     
     codigo_mat, nombre_mat, Hora, Grupo, Clave = data["values"]
-    print(Clave)
+    #print(Clave)
     #ident.insert(0,"%i"%id)
     #print(id, nombre, creditos, semestre)
     
@@ -289,10 +289,10 @@ def Nueva_contraseña():
             if nuevacontrasena_verify.get() != contrasenausuario_verify.get():
                 try:
                     bd=pymysql.connect(
-                    host="localhost",
-                    user="root",
-                    passwd="SQLATb3ar2019",
-                    db="secundaria39Demo5"
+                        host="localhost",
+                        user="kzajjpj",
+                        passwd="",
+                        db="secundaria39Demo6"
                     )
                     fcursor=bd.cursor()
                     fcursor.execute("UPDATE maestro SET contraseña_ma='"+nuevacontrasena_verify.get()+"' WHERE codigo_ma="+nombreusuario_verify.get())
@@ -314,46 +314,9 @@ def Nueva_contraseña():
 def Cerrar_sesion():
     Inicio.deiconify()
     Menu.destroy()
-
-def Agregar_grupo():
-    #from AgregarGrupo import A_Grupo
-    global AgreGrupo
-    AgreGrupo=Toplevel(Menu)
-    AgreGrupo.title("Agregar grupo")
-    AgreGrupo.config(width=550,height=350,padx=10,pady=20)
-    AgreGrupo.iconbitmap("logotecnica.ico")
-
-    Tit1=Label(AgreGrupo,text="Agregar Grupo",font=("Arial",20))
-    Tit1.grid(column=0,row=0,columnspan=5,pady=(0,10), padx=10)
-    CodGru_label=Label(AgreGrupo,text="Codigo de grupo:",font=("Arial",10))
-    CodGru_label.grid(column=1,row=1,pady=(0,10))
-    NomGru_label=Label(AgreGrupo,text="Nombre de grupo:",font=("Arial",10))
-    NomGru_label.grid(column=1,row=2,pady=(0,10), padx=10)
-
-    CodGru=StringVar()
-    CodGru_Entry = Entry(AgreGrupo, textvariable=CodGru, state="normal", width=15)
-    CodGru_Entry.grid(column=2, row=1, sticky=W)
-
-    NomGru=StringVar()
-    NomGru_entry = Entry(AgreGrupo, textvariable=CodGru, state="normal", width=30)
-    NomGru_entry.grid(column=2, row=2, columnspan=5,sticky=W)
-
-    Bus_boton=ttk.Button(AgreGrupo,text="Buscar")
-    Bus_boton.grid(column=3,row=1,sticky=E,padx=10)
-
-    Can_boton=ttk.Button(AgreGrupo,text="Cancelar",command=AgreGrupo.destroy)
-    Can_boton.grid(column=1,row=3,padx=10)
-
-    Ace_boton=ttk.Button(AgreGrupo,text="Aceptar")
-    Ace_boton.grid(column=2,row=3,padx=10,columnspan=2)
-
-    espacioder_label = Label(AgreGrupo,width=5)
-    espacioder_label.grid(column=5,row=0,rowspan=10,padx=2,columnspan=2)
-
-    espacioizq_label = Label(AgreGrupo,width=5)
-    espacioizq_label.grid(column=0,row=0,rowspan=10,padx=2)
     
 def Seleccionar_g():
+    Menu.withdraw()
     global seleccion
     seleccion=Toplevel(Menu)
     seleccion.title("Grupo seleccionado")
@@ -377,28 +340,42 @@ def Seleccionar_g():
     TerTri_boton=Button(seleccion,text="3er trimestre",bg="#8B1C0E",fg="white", command=Tri_3)
     TerTri_boton.grid(column=2,row=2,padx=10,pady=10)
 
-    Prom_boton=Button(seleccion,text="Promedio del ciclo escolar",bg="#8B1C0E",fg="white")
+    Prom_boton=Button(seleccion,text="Promedio del ciclo escolar",bg="#8B1C0E",fg="white", command=FinalC)
     Prom_boton.grid(column=0,row=3,columnspan=5, padx=50,pady=10)
 
-    Reg_boton=Button(seleccion,text="Regresar",bg="#8B1C0E",fg="white", command=seleccion.destroy)
+    Reg_boton=Button(seleccion,text="Regresar",bg="#8B1C0E",fg="white", command=Rmenu)
     Reg_boton.grid(column=0,row=4,padx=20,pady=10)
 
     seleccion.mainloop()
+def Rmenu():
+    seleccion.destroy()
+    Menu.deiconify()
 
 def Tri_1():
     global Trimestre
     Trimestre = 1
+    seleccion.withdraw()
     C_Trimestre()
+    
 def Tri_2():
     global Trimestre
     Trimestre = 2
+    seleccion.withdraw()
     C_Trimestre()
+    
 def Tri_3():
     global Trimestre
     Trimestre = 3
+    seleccion.withdraw()
     C_Trimestre()
+    
+def FinalC():
+    seleccion.withdraw()
+    VerCFinal()
+
 
 def C_Trimestre():
+    global Cali
     Cali=Toplevel(Menu)
     Cali.title("Calificaciones del Trimestre %i"%Trimestre)
     Cali.geometry("1500x800")
@@ -408,7 +385,7 @@ def C_Trimestre():
     global tree2
     global Folio_entry
     global valor_entry, combo
-    Label(Cali, text="Calificaciones del trimestre %i"%Trimestre, bg="white").pack()
+    Label(Cali, text="Calificaciones del trimestre %i del grupo %s en la materia %s"%(Trimestre, Grupo, nombre_mat), bg="white", font=(("Arial"),20)).pack()
     tree2 = ttk.Treeview(Cali, column=("c1","c2","c3","c4","c5","c6","c7","c8","c9","c10","c11","c12","c13","c14","c15"), show='headings')
     tree2.column("#1", anchor=tk.CENTER)
 
@@ -484,7 +461,7 @@ def C_Trimestre():
     values = ["act_1","act_2","act_3","act_4","act_5","act_6","act_7","act_8","act_9","act_10","Examen"])
     combo.bind("<<ComboboxSelected>>", Obtener_co)
     combo.place(x=700, y=440)
-    Button(Cali, bg="#8B1C0E", fg="white", text="Cerrar",width="10", command=Cali.destroy).place(x=30, y=700)
+    Button(Cali, bg="#8B1C0E", fg="white", text="Cerrar",width="10", command=Cerrar_T).place(x=30, y=700)
     Label(Cali, text="Folio del Alumno:", bg="white").place(x=590, y=400)
     Folio_entry=Entry(Cali, textvariable = "", borderwidth=1, relief="solid")
     Folio_entry.place(x=700, y=400)
@@ -506,9 +483,9 @@ def Obtener_c():
     try:
         bd=pymysql.connect(
             host="localhost",
-            user="root",
-            passwd="SQLATb3ar2019",
-            db="secundaria39Demo5"
+            user="kzajjpj",
+            passwd="",
+            db="secundaria39Demo6"
             )
         fcursor=bd.cursor()
 
@@ -539,24 +516,116 @@ def rama_seleccionada2(event):
     #print("UPDATE trimestre%i SET %s= %s WHERE folio_alumno=%s and clave_clase like '%s'"%(Trimestre, combo.get(),valor_entry.get(), Folio_entry.get(), Clave))
 
 def Guardar_C():
-    if Folio_entry.get().isdigit() and not combo.get().isspace():
-        try:
-            bd=pymysql.connect(
+    try:
+        value = float(valor_entry.get())
+        if (Folio_entry.get().isdigit() and (not combo.get().isspace()) and (value>=0 and value<=100)):
+            try:
+                bd=pymysql.connect(
+                    host="localhost",
+                    user="kzajjpj",
+                    passwd="",
+                    db="secundaria39Demo6"
+                )
+                fcursor=bd.cursor()
+                fcursor.execute("UPDATE trimestre%i SET %s= %s WHERE folio_alu=%s and clave_clase like '%s';"%(Trimestre, combo.get(),valor_entry.get(), Folio_entry.get(), Clave))
+                bd.commit()
+                messagebox.showinfo(title="Operación exitosa", message= "El cambio de calificación se realizo exitosamente.")
+                Obtener_c()
+                
+                fcursor.execute("UPDATE trimestre%i SET Promedio= (Select round(avg(act_1+act_2+act_3+act_4+act_5+act_6+act_7+act_8+act_9+act_10+Examen)/11, 0)) WHERE folio_alu=%s and clave_clase like '%s';"%(Trimestre, Folio_entry.get(), Clave))
+                bd.commit()
+                bd.close()
+                
+            except:
+                messagebox.showerror(title="Error", message= "No se pudo establecer conexion.")
+        else:
+            messagebox.showwarning(title="Advertencia", message= "Debe llenar bien los campos, el campo de calificación debe tener valores positivos y menores o iguales a 100.")
+    except:
+        messagebox.showwarning(title="Advertencia", message= "Debe llenar bien los campos, el campo de calificación debe tener valores positivos y menores o iguales a 100.")
+
+def VerCFinal():
+    global Final
+    Final=Toplevel(Menu)
+    Final.title("Calificaciones finales")
+    Final.geometry("1200x600")
+    Final.iconbitmap("logotecnica.ico")
+    Final.config(background="white")
+    Final.resizable(0,0)
+
+    Label(Final,text="Calificaciones finales del grupo %s en la materia %s"%(Grupo, nombre_mat), font=(("Arial"), 20), bg="white").pack()
+    global tree3
+
+    tree3 = ttk.Treeview(Final, column=("c1", "c2", "c3","c4","c5","c6","c7"), show='headings')
+
+    tree3.column("#1", anchor=tk.CENTER)
+
+    tree3.heading("#1", text="Folio de Alumno")
+
+    tree3.column("#2", anchor=S)
+
+    tree3.heading("#2", text="N.L.")
+
+    tree3.column("#3", anchor=tk.CENTER)
+
+    tree3.heading("#3", text="Nombre")
+
+    tree3.column("#4", anchor=tk.CENTER)
+
+    tree3.heading("#4", text="Trimestre 1")
+
+    tree3.column("#5", anchor=tk.CENTER)
+
+    tree3.heading("#5", text="Trimestre 2")
+
+    tree3.column("#6", anchor=tk.CENTER)
+
+    tree3.heading("#6", text="Trimestre 3")
+
+    tree3.column("#7", anchor=tk.CENTER)
+
+    tree3.heading("#7", text="Calificación final")
+
+    tree3.place(x=80, y=130, width=1000, height=350)
+
+    scroll_databaseH = Scrollbar(Final, orient="horizontal", command=tree3.xview)
+    scroll_databaseH.place(x=80, y=480, width=1000)
+    tree3.configure(xscrollcommand=scroll_databaseH.set)
+
+    button1 = tk.Button(Final,text="Regresar",bg="#8B1C0E", fg="white", command=Cerrar_F)
+    button1.place(x=80, y=550)
+    CCF()
+
+    Final.mainloop()
+
+def Cerrar_T():
+    seleccion.deiconify()
+    Cali.destroy()
+def Cerrar_F():
+    seleccion.deiconify()
+    Final.destroy()
+
+
+def CCF():
+    try:
+        bd=pymysql.connect(
             host="localhost",
-            user="root",
-            passwd="SQLATb3ar2019",
-            db="secundaria39Demo5"
+            user="kzajjpj",
+            passwd="",
+            db="secundaria39Demo6"
             )
-            fcursor=bd.cursor()
-            fcursor.execute("UPDATE trimestre%i SET %s= %s WHERE folio_alu=%s and clave_clase like '%s';"%(Trimestre, combo.get(),valor_entry.get(), Folio_entry.get(), Clave))
-            bd.commit()
-            messagebox.showinfo(title="Operación exitosa", message= "El cambio de calificación se realizo exitosamente.")
-            bd.close()
-            Obtener_c()
-        except:
-            messagebox.showerror(title="Error", message= "No se pudo establecer conexion.")
-    else:
-        messagebox.showwarning(title="Advertencia", message= "Debe llenar los campos.")
+        fcursor=bd.cursor()
+
+        fcursor.execute("select b.folio_alu, b.no_lista,b.nombre_alumno,b.Promedio Trimestre_1, c.Promedio Trimestre_2, d.Promedio Trimestre_3, round(avg(b.Promedio+c.Promedio+d.Promedio)/3,0) Final from Trimestre1 as b, Trimestre2 as c, Trimestre3 as d where (((b.folio_alu = c.folio_alu) and (c.folio_alu = d.folio_alu)))and (b.clave_clase like '%s'and ((b.clave_clase=c.clave_clase)and(c.clave_clase=d.clave_clase))) group by b.folio_alu, b.clave_clase;"%(Clave))
+        tree3.delete(*tree3.get_children())
+        
+        
+        for fila in fcursor:
+            tree3.insert("",END, values=(fila[0],fila[1],fila[2], fila[3],fila[4],fila[5],fila[6]))
+                        
+        bd.close() 
+    except:
+        messagebox.showerror(title="Error", message= "No se pudo establecer conexion.")
+
 def RE():
     Reporte=Toplevel(Menu)
     Reporte.title("Reporte de errores")
