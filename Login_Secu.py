@@ -69,12 +69,12 @@ def Inicio_sesion():
     global nombre_usuario_entry
     global contrasena_usuario_entry
 
-    Label(InicioS, text="Folio", bg="white").pack()
+    Label(InicioS, text="Usuario:", bg="white").pack()
     nombre_usuario_entry = Entry(InicioS, textvariable = nombreusuario_verify, borderwidth=1, relief="solid")
     nombre_usuario_entry.pack()
     Label(InicioS, bg="white").pack()
 
-    Label(InicioS, text="Contraseña", bg="white").pack()
+    Label(InicioS, text="Contraseña:", bg="white").pack()
     contrasena_usuario_entry = Entry(InicioS, textvariable = contrasenausuario_verify, show= "*", borderwidth=1, relief="solid")
     contrasena_usuario_entry.pack()
     Label(InicioS, bg="white").pack()
@@ -254,7 +254,7 @@ def Ccontraseña():
     label1.place(x=0,y=0)
 
     Label(ccontra, text="Cambiar contraseña", bg="white").pack()
-    label2 = Label(ccontra, text="Folio : "+nombreusuario_verify.get()+"", bg="white")
+    label2 = Label(ccontra, text="Usuario: "+nombreusuario_verify.get()+"", bg="white")
     label2.place(x=100, y=60)
 
     global nuevacontrasena_verify
@@ -389,7 +389,7 @@ def C_Trimestre():
     tree2 = ttk.Treeview(Cali, column=("c1","c2","c3","c4","c5","c6","c7","c8","c9","c10","c11","c12","c13","c14","c15"), show='headings')
     tree2.column("#1", anchor=tk.CENTER, width=100)
 
-    tree2.heading("#1", text="Folio_alu")
+    tree2.heading("#1", text="Clave Alu")
 
     tree2.column("#2", anchor=tk.CENTER,width=50)
 
@@ -559,7 +559,7 @@ def VerCFinal():
 
     tree3.column("#1", anchor=tk.CENTER, width=80)
 
-    tree3.heading("#1", text="Folio de Alumno")
+    tree3.heading("#1", text="Clave de Alumno")
 
     tree3.column("#2", anchor=tk.CENTER, width=50)
 
