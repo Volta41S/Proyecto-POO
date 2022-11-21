@@ -15,7 +15,7 @@ def VerCFinal():
 
     tree3 = ttk.Treeview(Final, column=("c1", "c2", "c3","c4","c5","c6","c7"), show='headings')
 
-    tree3.column("#1", anchor=tk.CENTER)
+    tree3.column("#1", anchor=tk.CENTER, width=110)
 
     tree3.heading("#1", text="Folio de Alumno")
 

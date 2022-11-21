@@ -125,19 +125,19 @@ def Menu_Secundario():
     
     tree = ttk.Treeview(Menu, column=("c1", "c2", "c3","c4","c5"), show='headings')
 
-    tree.column("#1", anchor=tk.CENTER)
+    tree.column("#1", anchor=tk.CENTER, width=100)
 
     tree.heading("#1", text="Codigo Materia")
 
-    tree.column("#2", anchor=tk.CENTER)
+    tree.column("#2", anchor=tk.CENTER, width=100)
 
     tree.heading("#2", text="Materia")
 
-    tree.column("#3", anchor=tk.CENTER)
+    tree.column("#3", anchor=tk.CENTER, width=60)
 
     tree.heading("#3", text="Hora")
 
-    tree.column("#4", anchor=tk.CENTER)
+    tree.column("#4", anchor=tk.CENTER, width=70)
 
     tree.heading("#4", text="Grupo")
 
@@ -146,16 +146,16 @@ def Menu_Secundario():
     tree.heading("#5", text="Clave")
     #tree.bind("<<TreeviewSelect>>", on_tree_select)
 
-    tree.place(x=150, y=130, width=800)
+    tree.place(x=190, y=130, width=800)
     scroll_databaseH = Scrollbar(Menu, orient="horizontal", command=tree.xview)
-    scroll_databaseH.place(x=150, y=350, width=800)
+    scroll_databaseH.place(x=190, y=350, width=800)
     tree.configure(xscrollcommand=scroll_databaseH.set)
     item = tree.identify_row(0)
     tree.selection_set(item)
     tree.focus(item)
     
-    button1 = tk.Button(Menu,text="Cargar", command=view, bg="#8B1C0E", fg="white")
-    button1.place(x=100, y=100)
+    button1 = tk.Button(Menu,text="Cargar grupos", command=view, bg="#8B1C0E", fg="white")
+    button1.place(x=550, y=400)
     
     Label(Menu, text="Menu principal", bg="white", fg="black", width="300", height="3", font=("Arial", 15)).pack()
     foto2 = Image.open("logotecnica.png")
@@ -235,7 +235,7 @@ def Configuracion():
     btn3=Button(settings, bg="#8B1C0E", fg="white", text="Cerrar sesión", width="15", command=Cerrar_sesion)
     btn3.place(x=115, y=250)
 
-    Label(settings, text="Versión 1.0.0", bg="white", fg="gray").place(x=125, y=360)
+    Label(settings, text="Versión 1.0.1", bg="white", fg="gray").place(x=125, y=360)
 
     settings.mainloop()
 
@@ -378,7 +378,7 @@ def C_Trimestre():
     global Cali
     Cali=Toplevel(Menu)
     Cali.title("Calificaciones del Trimestre %i"%Trimestre)
-    Cali.geometry("1500x800")
+    Cali.geometry("1500x600")
     Cali.iconbitmap("logotecnica.ico")
     Cali.config(background="white")
     Cali.resizable(0,0)
@@ -387,11 +387,11 @@ def C_Trimestre():
     global valor_entry, combo
     Label(Cali, text="Calificaciones del trimestre %i del grupo %s en la materia %s"%(Trimestre, Grupo, nombre_mat), bg="white", font=(("Arial"),20)).pack()
     tree2 = ttk.Treeview(Cali, column=("c1","c2","c3","c4","c5","c6","c7","c8","c9","c10","c11","c12","c13","c14","c15"), show='headings')
-    tree2.column("#1", anchor=tk.CENTER)
+    tree2.column("#1", anchor=tk.CENTER, width=100)
 
     tree2.heading("#1", text="Folio_alu")
 
-    tree2.column("#2", anchor=tk.CENTER)
+    tree2.column("#2", anchor=tk.CENTER,width=50)
 
     tree2.heading("#2", text="N.L.")
 
@@ -399,51 +399,51 @@ def C_Trimestre():
 
     tree2.heading("#3", text="Nombre del alumno")
 
-    tree2.column("#4", anchor=tk.CENTER)
+    tree2.column("#4", anchor=tk.CENTER, width=70)
 
     tree2.heading("#4", text="Act_1")
 
-    tree2.column("#5", anchor=tk.CENTER)
+    tree2.column("#5", anchor=tk.CENTER, width=70)
 
     tree2.heading("#5", text="Act_2")
 
-    tree2.column("#6", anchor=tk.CENTER)
+    tree2.column("#6", anchor=tk.CENTER, width=70)
 
     tree2.heading("#6", text="Act_3")
 
-    tree2.column("#7", anchor=tk.CENTER)
+    tree2.column("#7", anchor=tk.CENTER, width=70)
 
     tree2.heading("#7", text="Act_4")
 
-    tree2.column("#8", anchor=tk.CENTER)
+    tree2.column("#8", anchor=tk.CENTER, width=70)
 
     tree2.heading("#8", text="Act_5")
 
-    tree2.column("#9", anchor=tk.CENTER)
+    tree2.column("#9", anchor=tk.CENTER, width=70)
 
     tree2.heading("#9", text="Act_6")
 
-    tree2.column("#10", anchor=tk.CENTER)
+    tree2.column("#10", anchor=tk.CENTER, width=70)
 
     tree2.heading("#10", text="Act_7")
 
-    tree2.column("#11", anchor=tk.CENTER)
+    tree2.column("#11", anchor=tk.CENTER, width=70)
 
     tree2.heading("#11", text="Act_8")
 
-    tree2.column("#12", anchor=tk.CENTER)
+    tree2.column("#12", anchor=tk.CENTER, width=70)
 
     tree2.heading("#12", text="Act_9")
 
-    tree2.column("#13", anchor=tk.CENTER)
+    tree2.column("#13", anchor=tk.CENTER, width=70)
 
     tree2.heading("#13", text="Act_10")
 
-    tree2.column("#14", anchor=tk.CENTER)
+    tree2.column("#14", anchor=tk.CENTER, width=70)
 
     tree2.heading("#14", text="Examen")
 
-    tree2.column("#15", anchor=tk.CENTER)
+    tree2.column("#15", anchor=tk.CENTER, width=150)
 
     tree2.heading("#15", text="Promedio de trimestre")
     
@@ -461,7 +461,7 @@ def C_Trimestre():
     values = ["act_1","act_2","act_3","act_4","act_5","act_6","act_7","act_8","act_9","act_10","Examen"])
     combo.bind("<<ComboboxSelected>>", Obtener_co)
     combo.place(x=700, y=440)
-    Button(Cali, bg="#8B1C0E", fg="white", text="Cerrar",width="10", command=Cerrar_T).place(x=30, y=700)
+    Button(Cali, bg="#8B1C0E", fg="white", text="Cerrar",width="10", command=Cerrar_T).place(x=30, y=520)
     Label(Cali, text="Folio del Alumno:", bg="white").place(x=590, y=400)
     Folio_entry=Entry(Cali, textvariable = "", borderwidth=1, relief="solid")
     Folio_entry.place(x=700, y=400)
@@ -470,7 +470,7 @@ def C_Trimestre():
     valor_entry=Entry(Cali, textvariable = "", borderwidth=1, relief="solid")
     valor_entry.place(x=700, y=470)
     btn1=Button(Cali, text="Guardar calificación", bg="#8B1C0E", fg="white", command=Guardar_C)
-    btn1.place(x=620, y=500)
+    btn1.place(x=620, y=530)
 
 
     Cali.mainloop()
@@ -557,11 +557,11 @@ def VerCFinal():
 
     tree3 = ttk.Treeview(Final, column=("c1", "c2", "c3","c4","c5","c6","c7"), show='headings')
 
-    tree3.column("#1", anchor=tk.CENTER)
+    tree3.column("#1", anchor=tk.CENTER, width=80)
 
     tree3.heading("#1", text="Folio de Alumno")
 
-    tree3.column("#2", anchor=S)
+    tree3.column("#2", anchor=tk.CENTER, width=50)
 
     tree3.heading("#2", text="N.L.")
 
@@ -569,19 +569,19 @@ def VerCFinal():
 
     tree3.heading("#3", text="Nombre")
 
-    tree3.column("#4", anchor=tk.CENTER)
+    tree3.column("#4", anchor=tk.CENTER, width=70)
 
     tree3.heading("#4", text="Trimestre 1")
 
-    tree3.column("#5", anchor=tk.CENTER)
+    tree3.column("#5", anchor=tk.CENTER, width=70)
 
     tree3.heading("#5", text="Trimestre 2")
 
-    tree3.column("#6", anchor=tk.CENTER)
+    tree3.column("#6", anchor=tk.CENTER, width=70)
 
     tree3.heading("#6", text="Trimestre 3")
 
-    tree3.column("#7", anchor=tk.CENTER)
+    tree3.column("#7", anchor=tk.CENTER, width=150)
 
     tree3.heading("#7", text="Calificación final")
 
