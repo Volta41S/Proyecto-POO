@@ -1,1 +1,13 @@
-"# Proyecto-POO"  initgit add README.mdgit commit -m "first commit"git branch -M maingit remote add origin https://github.com/Volta41S/Proyecto-POO.gitgit push -u origin main
+# Proyecto-POO #
+
+Proyecto final de la materia de Programación Orientada a Objetos.
+
+Esto proyecto consiste en una aplicación de escritorio desarrollada en Python para una escuela secundaria.
+
+Base de datos: MySQL.
+
+Caracteristicas:
+* Evaluación y promedio por Trimestre.
+* Diseñado al plan educativo que lleva actualmente la escuela.
+* Promedio final.
+
